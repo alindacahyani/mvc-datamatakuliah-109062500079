@@ -1,7 +1,13 @@
 <?php
 class MatkulController
 {
-    public function __construct(private Matkul $model) {}
+    public function __construct(private Matkul $model) 
+    {
+        // Memastikan session aktif untuk fitur Flash Message (Pop-up sukses)
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
 
     public function index(): void
     {
@@ -18,6 +24,13 @@ class MatkulController
     {
         $data = $this->validateInput($_POST);
         $this->model->insert($data);
+
+        // Set Pop-up Sukses Tambah Data
+        $_SESSION['flash'] = [
+            'pesan' => 'Data mata kuliah berhasil ditambahkan!',
+            'tipe' => 'success'
+        ];
+
         header('Location: index.php?page=matkul');
         exit;
     }
@@ -38,6 +51,13 @@ class MatkulController
         $id = (int) ($_POST['id'] ?? 0);
         $data = $this->validateInput($_POST);
         $this->model->update($id, $data);
+
+        // Set Pop-up Sukses Update Data
+        $_SESSION['flash'] = [
+            'pesan' => 'Data mata kuliah berhasil diperbarui!',
+            'tipe' => 'success'
+        ];
+
         header('Location: index.php?page=matkul');
         exit;
     }
@@ -46,6 +66,13 @@ class MatkulController
     {
         $id = (int) ($_POST['id'] ?? 0);
         $this->model->delete($id);
+
+        // Set Pop-up Sukses Hapus Data
+        $_SESSION['flash'] = [
+            'pesan' => 'Data mata kuliah berhasil dihapus!',
+            'tipe' => 'success'
+        ];
+
         header('Location: index.php?page=matkul');
         exit;
     }

@@ -25,13 +25,6 @@
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
-        .stat-card {
-            border-left: 4px solid #4f46e5;
-            transition: transform 0.2s;
-        }
-        .stat-card:hover {
-            transform: translateY(-3px);
-        }
         .table thead th {
             background-color: #f1f5f9;
             color: #475569;
@@ -90,6 +83,21 @@
     </nav>
 
     <div class="container py-3">
+
+        <!-- Notifikasi Pop-up / Flash Message Sukses -->
+        <?php if (isset($_SESSION['flash'])): ?>
+            <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 mb-4" role="alert" style="border-left: 4px solid #10b981 !important; background-color: #ecfdf5; color: #065f46;">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill text-success fs-4 me-2"></i>
+                    <div>
+                        <strong>Berhasil!</strong> <?= $_SESSION['flash']['pesan']; ?>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['flash']); ?>
+        <?php endif; ?>
+
         <!-- Header & Tombol Tambah -->
         <div class="row mb-4 align-items-center">
             <div class="col-md-8">
@@ -172,5 +180,7 @@
         </div>
     </div>
 
+    <!-- Bootstrap JS Bundle (Dibutuhkan untuk tombol close alert/pop-up) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
